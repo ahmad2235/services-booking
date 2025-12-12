@@ -42,7 +42,7 @@
                             <h5>Provider Profile</h5>
                             <p class="mb-1"><strong>Company:</strong> {{ $user->providerProfile->company_name }}</p>
                             <p class="mb-1"><strong>Phone:</strong> {{ $user->providerProfile->phone ?? 'N/A' }}</p>
-                            <p class="mb-1"><strong>Experience:</strong> {{ $user->providerProfile->experience_years ?? 0 }} years</p>
+                            <p class="mb-1"><strong>Experience:</strong> {{ $user->providerProfile->years_of_experience ?? 0 }} years</p>
                             <div class="rating-stars">
                                 @for($i = 1; $i <= 5; $i++)
                                     @if($i <= round($user->providerProfile->avg_rating))

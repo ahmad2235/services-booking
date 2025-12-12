@@ -29,7 +29,12 @@ class ProfileController extends Controller
         $providerProfile = $user->providerProfile->load('locations');
         $allLocations = $this->catalogService->getLocationsGroupedByCity();
         
-        return view('provider.profile.edit', compact('providerProfile', 'allLocations'));
+        // Pass both providerProfile and legacy 'profile' variable to avoid undefined variable
+        return view('provider.profile.edit', [
+            'providerProfile' => $providerProfile,
+            'profile' => $providerProfile,
+            'allLocations' => $allLocations,
+        ]);
     }
 
     /**
@@ -58,5 +63,23 @@ class ProfileController extends Controller
         
         return redirect()->route('provider.profile.edit')
             ->with('success', 'Covered locations updated successfully.');
+    }
+
+    /**
+     * Show form to edit provider covered locations.
+     */
+    public function editLocations(): View
+    {
+        $user = Auth::user();
+        $providerProfile = $user->providerProfile->load('locations');
+        $locations = $this->catalogService->getLocations();
+        $selectedLocationIds = $providerProfile->locations->pluck('id')->toArray();
+
+        return view('provider.locations.edit', [
+            'locations' => $locations,
+            'selectedLocationIds' => $selectedLocationIds,
+            'providerProfile' => $providerProfile,
+            'profile' => $providerProfile,
+        ]);
     }
 }

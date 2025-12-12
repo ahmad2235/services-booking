@@ -39,4 +39,12 @@ class RatingController extends Controller
         
         return back()->with('success', $message);
     }
+
+    /**
+     * Hide a rating (POST action).
+     */
+    public function hide(int $id): RedirectResponse
+    {
+        return $this->toggleVisibility($id);
+    }
 }

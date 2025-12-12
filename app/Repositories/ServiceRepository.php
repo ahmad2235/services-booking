@@ -52,12 +52,20 @@ class ServiceRepository extends BaseRepository
     /**
      * Get paginated services for admin.
      */
-    public function getPaginatedForAdmin(?int $categoryId = null, int $perPage = 15): LengthAwarePaginator
+    public function getPaginatedForAdmin(?int $categoryId = null, ?string $search = null, int $perPage = 15): LengthAwarePaginator
     {
-        $query = $this->model->with('category');
+        $query = $this->model->with('category')
+            ->withCount('providerServices');
 
         if ($categoryId) {
             $query->where('category_id', $categoryId);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
         }
 
         return $query->orderBy('name')->paginate($perPage);

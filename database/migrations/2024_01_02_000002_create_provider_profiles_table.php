@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title')->nullable(); // e.g., "Plumber", "Electrician"
             $table->string('phone')->nullable();
             $table->text('bio')->nullable();
-            $table->integer('experience_years')->nullable();
+            // Years of experience (kept singular consistent field across app)
             $table->integer('years_of_experience')->nullable();
             $table->decimal('min_price', 10, 2)->nullable();
             $table->decimal('max_price', 10, 2)->nullable();

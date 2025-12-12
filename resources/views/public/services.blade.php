@@ -122,8 +122,8 @@
 
                         <p class="card-text text-muted small">{{ Str::limit($provider->bio, 80) }}</p>
 
-                        @if($provider->experience_years)
-                            <p class="mb-2"><i class="bi bi-award"></i> {{ $provider->experience_years }} years experience</p>
+                        @if($provider->years_of_experience)
+                            <p class="mb-2"><i class="bi bi-award"></i> {{ $provider->years_of_experience }} years experience</p>
                         @endif
 
                         <!-- Services Preview -->

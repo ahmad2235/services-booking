@@ -9,7 +9,9 @@ erDiagram
         bigint  id PK
         string  name
         string  email
-        string  password_hash
+        string  password
+        datetime email_verified_at
+        string  remember_token
         string  phone
         string  role           "enum: customer, provider, admin"
         boolean is_active
@@ -21,7 +23,12 @@ erDiagram
         bigint  id PK
         bigint  user_id FK      "USERS.id"
         string  city
+        string  state
+        string  zip_code
+        string  country
         string  area
+        string  phone
+        string  address
         string  address_details
         float   latitude        "يفضّل DECIMAL(10,6)"
         float   longitude       "يفضّل DECIMAL(10,6)"
@@ -40,6 +47,8 @@ erDiagram
         string  coverage_description
         float   avg_rating
         int     total_reviews
+        string  company_name
+        string  phone
         datetime created_at
         datetime updated_at
     }
@@ -86,6 +95,8 @@ erDiagram
         int     default_duration_minutes
         float   default_price_from      "يفضّل DECIMAL(10,2)"
         float   default_price_to        "يفضّل DECIMAL(10,2)"
+        float   base_price              "يفضّل DECIMAL(10,2)"
+        int     duration_minutes
         boolean is_active
         datetime created_at
         datetime updated_at
@@ -127,10 +138,12 @@ erDiagram
         bigint  provider_profile_id FK  "PROVIDER_PROFILES.id"
         bigint  provider_service_id FK  "PROVIDER_SERVICES.id"
         bigint  time_slot_id FK         "PROVIDER_TIME_SLOTS.id"
-        datetime scheduled_datetime
+        datetime scheduled_at
         int     duration_minutes
         float   total_price             "يفضّل DECIMAL(10,2)"
         string  status                  "pending, confirmed, rejected, cancelled, completed"
+        string  address
+        string  notes
         string  customer_note
         string  provider_note
         string  reject_reason
@@ -165,7 +178,7 @@ erDiagram
         bigint  id PK
         bigint  user_id FK              "USERS.id"
         string  type                    "code / enum"
-        string  data                    "JSON أو نص"
+        json    data                    "JSON أو نص"
         boolean is_read
         datetime created_at
         datetime read_at

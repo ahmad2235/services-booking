@@ -42,9 +42,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="experience_years" class="form-label">Years of Experience</label>
-                        <input type="number" class="form-control" id="experience_years" name="experience_years" 
-                               value="{{ old('experience_years', $profile->experience_years) }}" min="0" max="50">
+                           <label for="years_of_experience" class="form-label">Years of Experience</label>
+                           <input type="number" class="form-control" id="years_of_experience" name="years_of_experience" 
+                               value="{{ old('years_of_experience', $profile->years_of_experience) }}" min="0" max="50">
                     </div>
 
                     <button type="submit" class="btn btn-primary">

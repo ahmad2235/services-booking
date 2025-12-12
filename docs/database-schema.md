@@ -93,7 +93,7 @@ Extended profile information for service providers.
 | company_name     | VARCHAR(100) | NOT NULL           | Business name             |
 | phone            | VARCHAR(20)  | NULLABLE           | Business phone            |
 | bio              | TEXT         | NULLABLE           | Business description      |
-| experience_years | INT          | DEFAULT 0          | Years of experience       |
+| years_of_experience | INT          | DEFAULT 0          | Years of experience       |
 | avg_rating       | DECIMAL(3,2) | DEFAULT 0.00       | Calculated average rating |
 | created_at       | TIMESTAMP    |                    | Creation timestamp        |
 | updated_at       | TIMESTAMP    |                    | Last update timestamp     |

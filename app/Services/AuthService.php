@@ -7,6 +7,7 @@ use App\Repositories\UserRepository;
 use App\Repositories\NotificationRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use RuntimeException;
 
 class AuthService
 {
@@ -40,18 +41,54 @@ class AuthService
      */
     public function login(array $credentials, bool $remember = false): bool
     {
-        if (Auth::attempt($credentials, $remember)) {
-            $user = Auth::user();
-            
-            // Check if user is active
-            if (!$user->is_active) {
-                Auth::logout();
-                return false;
+        try {
+            if (Auth::attempt($credentials, $remember)) {
+                $user = Auth::user();
+
+                // Check if user is active
+                if (!$user->is_active) {
+                    Auth::logout();
+                    return false;
+                }
+
+                return true;
             }
-            
-            return true;
+        } catch (RuntimeException $e) {
+            // Hash driver mismatch (e.g. bcrypt vs argon hashed value). Try fallback check with other drivers
+            $email = $credentials['email'] ?? null;
+            $plain = $credentials['password'] ?? null;
+
+            if ($email && $plain) {
+                $user = $this->userRepository->findByEmail($email);
+                if ($user) {
+                    $drivers = ['argon2id', 'argon', 'bcrypt'];
+                    foreach ($drivers as $driver) {
+                        try {
+                            if (Hash::driver($driver)->check($plain, $user->password)) {
+                                // Re-hash the password using the current default driver and login the user
+                                $user->password = Hash::make($plain);
+                                $user->save();
+                                Auth::loginUsingId($user->id, $remember);
+
+                                if (!$user->is_active) {
+                                    Auth::logout();
+                                    return false;
+                                }
+
+                                return true;
+                            }
+                        } catch (RuntimeException $ex) {
+                            // driver couldn't check this hash, try next
+                            continue;
+                        } catch (\InvalidArgumentException $ex) {
+                            // driver not available, try next
+                            continue;
+                        }
+                    }
+                }
+            }
         }
-        
+
         return false;
     }
 
@@ -95,6 +132,29 @@ class AuthService
      */
     public function verifyPassword(User $user, string $password): bool
     {
-        return Hash::check($password, $user->password);
+        try {
+            if (Hash::check($password, $user->password)) {
+                return true;
+            }
+        } catch (RuntimeException $e) {
+            // Try other drivers if the configured driver can't validate the hash
+            $drivers = ['argon2id', 'argon', 'bcrypt'];
+            foreach ($drivers as $driver) {
+                try {
+                    if (Hash::driver($driver)->check($password, $user->password)) {
+                        // If matched, re-hash with default driver
+                        $user->password = Hash::make($password);
+                        $user->save();
+                        return true;
+                    }
+                } catch (RuntimeException $ex) {
+                    continue;
+                } catch (\InvalidArgumentException $ex) {
+                    continue;
+                }
+            }
+        }
+
+        return false;
     }
 }

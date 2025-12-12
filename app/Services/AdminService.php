@@ -259,8 +259,8 @@ class AdminService
     /**
      * Get all services for admin.
      */
-    public function getServices(?int $categoryId = null, int $perPage = 15)
+    public function getServices(?int $categoryId = null, ?string $search = null, int $perPage = 15)
     {
-        return $this->serviceRepository->getPaginatedForAdmin($categoryId, $perPage);
+        return $this->serviceRepository->getPaginatedForAdmin($categoryId, $search, $perPage);
     }
 }

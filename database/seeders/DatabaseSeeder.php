@@ -115,7 +115,7 @@ class DatabaseSeeder extends Seeder
                 'company_name' => 'Mike\'s Plumbing Services',
                 'phone' => '555-0201',
                 'bio' => 'Licensed plumber with over 10 years of experience. Specializing in residential plumbing repairs and installations.',
-                'experience_years' => 10,
+                'years_of_experience' => 10,
                 'services' => [1, 2, 3], // Plumbing services
                 'locations' => [1, 2], // NY, LA
             ],
@@ -125,7 +125,7 @@ class DatabaseSeeder extends Seeder
                 'company_name' => 'Bright Spark Electrical',
                 'phone' => '555-0202',
                 'bio' => 'Certified electrician providing safe and reliable electrical services for homes and small businesses.',
-                'experience_years' => 8,
+                'years_of_experience' => 8,
                 'services' => [4, 5, 6], // Electrical services
                 'locations' => [1, 3], // NY, Chicago
             ],
@@ -135,7 +135,7 @@ class DatabaseSeeder extends Seeder
                 'company_name' => 'Sparkle Clean Co.',
                 'phone' => '555-0203',
                 'bio' => 'Professional cleaning team dedicated to making your home spotless. Eco-friendly products available.',
-                'experience_years' => 5,
+                'years_of_experience' => 5,
                 'services' => [7, 8, 9], // Cleaning services
                 'locations' => [1, 2, 3, 4], // Multiple locations
             ],
@@ -156,7 +156,7 @@ class DatabaseSeeder extends Seeder
                 'company_name' => $providerData['company_name'],
                 'phone' => $providerData['phone'],
                 'bio' => $providerData['bio'],
-                'experience_years' => $providerData['experience_years'],
+                'years_of_experience' => $providerData['years_of_experience'],
                 'avg_rating' => 0,
             ]);
 

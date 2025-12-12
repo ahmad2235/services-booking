@@ -27,7 +27,8 @@ class ServiceController extends Controller
     public function index(Request $request): View
     {
         $categoryId = $request->get('category_id');
-        $services = $this->adminService->getServices($categoryId);
+        $search = $request->get('search');
+        $services = $this->adminService->getServices($categoryId, $search);
         $categories = $this->categoryRepository->all();
         
         return view('admin.services.index', compact('services', 'categories', 'categoryId'));

@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    @if($provider->experience_years)
-                        <p class="mb-1"><i class="bi bi-award"></i> {{ $provider->experience_years }} years experience</p>
+                    @if($provider->years_of_experience)
+                        <p class="mb-1"><i class="bi bi-award"></i> {{ $provider->years_of_experience }} years experience</p>
                     @endif
                     @if($provider->phone)
                         <p class="mb-0"><i class="bi bi-telephone"></i> {{ $provider->phone }}</p>

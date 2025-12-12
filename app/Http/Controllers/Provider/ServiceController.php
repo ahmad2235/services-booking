@@ -41,8 +41,12 @@ class ServiceController extends Controller
         $providerProfile = $user->providerProfile;
         
         $availableServices = $this->providerService->getAvailableServices($providerProfile->id);
-        
-        return view('provider.services.create', compact('availableServices'));
+        // Group services by category name for the form select
+        $services = $availableServices->groupBy(function ($s) {
+            return $s->category?->name ?? 'Other';
+        });
+
+        return view('provider.services.create', compact('availableServices', 'services'));
     }
 
     /**

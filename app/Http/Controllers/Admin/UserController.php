@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -47,5 +48,20 @@ class UserController extends Controller
             : "User {$user->name} has been deactivated.";
         
         return back()->with('success', $message);
+    }
+
+    /**
+     * Show user details.
+     */
+    public function show(User $user): View
+    {
+        // Load common related data used in the admin view to prevent N+1
+        $user->load([
+            'providerProfile.providerServices.service',
+            'providerProfile.locations',
+            'customerProfile'
+        ]);
+
+        return view('admin.users.show', compact('user'));
     }
 }

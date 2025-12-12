@@ -37,7 +37,7 @@ class TimeSlotController extends Controller
         $endDate = Carbon::now()->endOfMonth();
         $calendarSlots = $this->timeSlotRepository->getGroupedByDate($providerProfile->id, $startDate, $endDate);
         
-        return view('provider.time_slots.index', compact('timeSlots', 'calendarSlots', 'status'));
+        return view('provider.time-slots.index', compact('timeSlots', 'calendarSlots', 'status'));
     }
 
     /**
@@ -45,7 +45,7 @@ class TimeSlotController extends Controller
      */
     public function create(): View
     {
-        return view('provider.time_slots.create');
+        return view('provider.time-slots.create');
     }
 
     /**
@@ -80,7 +80,7 @@ class TimeSlotController extends Controller
             abort(404);
         }
         
-        return view('provider.time_slots.edit', compact('timeSlot'));
+        return view('provider.time-slots.edit', compact('timeSlot'));
     }
 
     /**
